@@ -9,8 +9,8 @@ def import_dataset(list_trial_label, list_data_path, num_sampling_frequency, num
     for label, path in zip(list_trial_label, list_data_path):
         bool_temp_interaction, ndarr_temp_calcium = fc.import_data(path)
         dict_data[label] = fc.extract_interaction(bool_temp_interaction, ndarr_temp_calcium,
-                                                        num_sampling_frequency, num_time_bin_ms, align=True,
-                                                        shuffle=True)
+                                                  num_sampling_frequency, num_time_bin_ms, align=True,
+                                                  shuffle=True)
     return dict_data
 
 
