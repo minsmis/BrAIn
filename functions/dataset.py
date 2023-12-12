@@ -1,16 +1,16 @@
 import random
 import numpy as np
-import functions.importer as fimport
+import importer
 
 
 def import_dataset(list_trial_label, list_data_path, num_sampling_frequency, num_time_bin_ms):
     dict_data = {}
 
     for label, path in zip(list_trial_label, list_data_path):
-        bool_temp_interaction, ndarr_temp_calcium = fimport.import_data(path)
-        dict_data[label] = fimport.extract_interaction(bool_temp_interaction, ndarr_temp_calcium,
-                                                       num_sampling_frequency, num_time_bin_ms, align=True,
-                                                       shuffle=True)
+        bool_temp_interaction, ndarr_temp_calcium = importer.import_data(path)
+        dict_data[label] = importer.extract_interaction(bool_temp_interaction, ndarr_temp_calcium,
+                                                        num_sampling_frequency, num_time_bin_ms, align=True,
+                                                        shuffle=True)
     return dict_data
 
 
