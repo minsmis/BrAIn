@@ -44,7 +44,7 @@ def make_dataset(dict_class, train_ratio, bool_null_mode=False):
     list_class_B = dict_class[1]  # Class 1
 
     while len(list_class_A) >= 2 and len(list_class_B) >= 2:
-        num_random = np.random.randint(1, 4)  # Get random index
+        num_random = random.randint(1, 4)  # Get random index
 
         if num_random == 1:  # Label = 0
             list_train_test.append(np.append(list_class_A.pop(), list_class_A.pop()))
