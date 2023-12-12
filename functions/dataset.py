@@ -10,7 +10,7 @@ def import_dataset(list_trial_label, list_data_path, num_sampling_frequency, num
         bool_temp_interaction, ndarr_temp_calcium = fimport.import_data(path)
         dict_data[label] = fimport.extract_interaction(bool_temp_interaction, ndarr_temp_calcium,
                                                        num_sampling_frequency, num_time_bin_ms, align=True,
-                                                       shuffle=True)
+                                                       shuffle=False)
     return dict_data
 
 

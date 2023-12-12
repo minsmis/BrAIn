@@ -23,7 +23,7 @@ data_path = [
 ]
 
 # Parameters
-NULL_MODE = True  # True: Test NULL model, False: Test genuine model
+NULL_MODE = False  # True: Test NULL model, False: Test genuine model
 fs = 20  # Hz
 time_bin = 100  # ms
 class_organization = [
