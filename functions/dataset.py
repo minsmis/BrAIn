@@ -10,7 +10,7 @@ def import_dataset(list_trial_label, list_data_path, num_sampling_frequency, num
         bool_temp_interaction, ndarr_temp_calcium = fimport.import_data(path)
         dict_data[label] = fimport.extract_interaction(bool_temp_interaction, ndarr_temp_calcium,
                                                        num_sampling_frequency, num_time_bin_ms, align=True,
-                                                       shuffle=True)
+                                                       shuffle=False)
     return dict_data
 
 
@@ -44,7 +44,7 @@ def make_dataset(dict_class, train_ratio, bool_null_mode=False):
     list_class_B = dict_class[1]  # Class 1
 
     while len(list_class_A) >= 2 and len(list_class_B) >= 2:
-        num_random = np.random.randint(1, 4)  # Get random index
+        num_random = random.randint(1, 4)  # Get random index
 
         if num_random == 1:  # Label = 0
             list_train_test.append(np.append(list_class_A.pop(), list_class_A.pop()))

@@ -23,12 +23,12 @@ data_path = [
 ]
 
 # Parameters
-NULL_MODE = True  # True: Test NULL model, False: Test genuine model
+NULL_MODE = False  # True: Test NULL model, False: Test genuine model
 fs = 20  # Hz
 time_bin = 100  # ms
 class_organization = [
-    ['A', 'C'],  # Class 0
-    ['B', 'D']  # Class 1
+    ['A', 'D'],  # Class 0
+    ['B', 'C']  # Class 1
 ]
 train_ratio = 0.75
 
@@ -46,4 +46,3 @@ model = mdl.train_model_xor(train_dataset, train_label)
 
 # Test model
 accuracy = mdl.test_model(model, test_dataset, test_label, percent=False)
-print('ACCURACY: {}%'.format(accuracy))
