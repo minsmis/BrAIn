@@ -23,26 +23,48 @@ data_path = [
 ]
 
 # Parameters
+EXPERIMENT_EPOCHS = 20
+
 NULL_MODE = False  # True: Test NULL model, False: Test genuine model
 fs = 20  # Hz
 time_bin = 100  # ms
 class_organization = [
-    ['A', 'D'],  # Class 0
-    ['B', 'C']  # Class 1
+    ['A', 'B'],  # Class 0
+    ['C', 'D']  # Class 1
 ]
 train_ratio = 0.75
 
-# Import data
-data = fc.import_dataset(trial_label, data_path, fs, time_bin)
+# Variables
+RESULT_ACCURACY = []
 
-# Make class
-classes = fc.make_class(data, class_organization)
+# EXPERIMENT ITERATION
+for epoch in range(0, EXPERIMENT_EPOCHS):
+    # Notice experiment epoch
+    print("Epoch: {}".format(epoch))
 
-# Make train dataset
-train_dataset, train_label, test_dataset, test_label = fc.make_dataset(classes, train_ratio, bool_null_mode=NULL_MODE)
+    # Import data
+    data = fc.import_dataset(trial_label, data_path, fs, time_bin)
 
-# Train model
-model = mdl.train_model_xor(train_dataset, train_label)
+    # Split to train and test datasets
+    train_data, test_data = fc.split_dataset(data, train_ratio)
 
-# Test model
-accuracy = mdl.test_model(model, test_dataset, test_label, percent=False)
+    # Feature selection
+    data_train_feature = fc.feature_selection(train_data)
+    data_test_feature = fc.feature_selection(test_data)
+
+    # Make class
+    classes_train = fc.make_class(data_train_feature, class_organization)
+    classes_test = fc.make_class(data_test_feature, class_organization)
+
+    # Make train dataset
+    train_dataset, train_label = fc.make_dataset2(classes_train, bool_shuffle=True, bool_null_mode=NULL_MODE)
+    test_dataset, test_label = fc.make_dataset2(classes_test, bool_null_mode=False)  # Do not shuffle test data
+
+    # Train model
+    model = mdl.train_model_xor(train_dataset, train_label)
+
+    # Test model
+    accuracy = mdl.test_model(model, test_dataset, test_label, percent=False)
+
+    # Store accuracy
+    RESULT_ACCURACY.append(accuracy)
