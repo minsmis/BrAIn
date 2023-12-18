@@ -2,6 +2,8 @@ import random
 import numpy as np
 import functions as fc
 
+from sklearn.model_selection import KFold
+
 
 def import_dataset(list_trial_label, list_data_path, num_sampling_frequency, num_time_bin_ms):
     # Variables
@@ -15,21 +17,54 @@ def import_dataset(list_trial_label, list_data_path, num_sampling_frequency, num
     return dict_data
 
 
-def split_dataset(dict_data, num_train_ratio=0.75):
+def split_dataset(dict_data, num_train_ratio=0.75, **kwargs):
     # Parameters
     # 'num_train_ratio' [int, Default = 0.75]: The ratio for train dataset size.
+    # 'k_fold' [int, Default = 20]: k of the k-fold cross validation.
+    # If 'k_fold' was given, 'num_train_ratio' will be ignored during the test code.
+    # 'k_fold' must be same to EXPERIMENT_EPOCHS in the test code.
+    # 'current_epoch' [int, Must be paired with 'k_fold' parameter]: The current epoch for k-fold cross validation.
+    # 'current_epoch' must be given together with 'k_fold' parameter.
+
+    def select_current_cross_validation_datasets(list_data, meta_kFold, num_epoch):
+        for i, (list_train_idx, list_test_idx) in enumerate(meta_kFold.split(list_data)):
+            if i == num_epoch:
+                return np.array(list_data)[list_train_idx], np.array(list_data)[list_test_idx]
+
+    # Mode selection
+    STR_SPLIT_MODE = 'train_ratio'  # Default mode is 'train_ratio' method.
+    if 'k_fold' and 'current_epoch' in kwargs:
+        STR_SPLIT_MODE = 'k_fold'
+    if 'k_fold' in kwargs and 'current_epoch' not in kwargs:  # Throwing mode selection errors
+        STR_SPLIT_MODE = 'train_ratio'
+        print("Check missed parameters: 'current_epoch'")
+    if 'current_epoch' in kwargs and 'k_fold' not in kwargs:  # Throwing mode selection errors
+        STR_SPLIT_MODE = 'train_ratio'
+        print("Check missed parameters: 'k_fold'")
 
     # Output
     dict_train_data = {}
     dict_test_data = {}
 
-    # Split datasets
-    for key in dict_data.keys():
-        list_temp_data_handle = dict_data[key]
-        TRAIN_LENGTH = int(len(list_temp_data_handle) * num_train_ratio)
-        dict_train_data[key] = list_temp_data_handle[0:TRAIN_LENGTH]
-        dict_test_data[key] = list_temp_data_handle[TRAIN_LENGTH:]
-    return dict_train_data, dict_test_data
+    # Split datasets by k-fold cross validation
+    if STR_SPLIT_MODE == 'k_fold':
+        num_k = kwargs.get('k_fold')
+        num_current_epoch = kwargs.get('current_epoch')
+        k_fold_cross_validation = KFold(n_splits=num_k)
+        if STR_SPLIT_MODE == 'k_fold' and isinstance(num_k, int) and isinstance(num_current_epoch, int):
+            for key in dict_data.keys():
+                list_temp_data_handle = dict_data[key]
+                dict_train_data[key], dict_test_data[key] = select_current_cross_validation_datasets(list_temp_data_handle, k_fold_cross_validation, num_current_epoch)
+            return dict_train_data, dict_test_data
+
+    # Split datasets by train ratio
+    if STR_SPLIT_MODE == 'train_ratio':
+        for key in dict_data.keys():
+            list_temp_data_handle = dict_data[key]
+            TRAIN_LENGTH = int(len(list_temp_data_handle) * num_train_ratio)
+            dict_train_data[key] = list_temp_data_handle[0:TRAIN_LENGTH]
+            dict_test_data[key] = list_temp_data_handle[TRAIN_LENGTH:]
+        return dict_train_data, dict_test_data
 
 
 def feature_selection(dict_data, num_iter=2, num_q=5):
