@@ -1,3 +1,6 @@
+# This is an experiment for train and test datasets split by train_ratio.
+
+
 import functions as fc
 import models as mdl
 
@@ -10,20 +13,14 @@ trial_label = [
 ]
 data_path = [
     # TEST TRIAL
-    '/Users/minseokkim/Desktop/Social_Calcium_raw/IL212_1.mat',
-    '/Users/minseokkim/Desktop/Social_Calcium_raw/IL212_2.mat',
-    '/Users/minseokkim/Desktop/Social_Calcium_raw/IL212_3.mat',
-    '/Users/minseokkim/Desktop/Social_Calcium_raw/IL212_4.mat'
-
-    # TEST NULL
-    # '/Users/minseokkim/Desktop/Social_Calcium_raw/IL212_1.mat',
-    # '/Users/minseokkim/Desktop/Social_Calcium_raw/IL212_1.mat',
-    # '/Users/minseokkim/Desktop/Social_Calcium_raw/IL212_1.mat',
-    # '/Users/minseokkim/Desktop/Social_Calcium_raw/IL212_1.mat'
+    'Path',
+    'OF',
+    'YOUR',
+    'RAW_DATASETS'
 ]
 
 # Parameters
-EXPERIMENT_EPOCHS = 20
+EXPERIMENT_EPOCHS = 20  # k of the k-fold cross validation
 
 NULL_MODE = False  # True: Test NULL model, False: Test genuine model
 fs = 20  # Hz
@@ -68,3 +65,6 @@ for epoch in range(0, EXPERIMENT_EPOCHS):
 
     # Store accuracy
     RESULT_ACCURACY.append(accuracy)
+
+# Report estimated performance
+mdl.report_performance(RESULT_ACCURACY, bool_percent=False)
