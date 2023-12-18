@@ -1,25 +1,37 @@
 import os
 
 import joblib
+import numpy as np
 from sklearn import svm  # import sklearn svm package
 
 
 def report_accuracy(num_accuracy, bool_percent):
     if bool_percent is True:
-        template = "ACCURACY: {}%"
+        template = "\n-----\nACCURACY: {}%\n-----\n"
         print(template.format(num_accuracy))
     if bool_percent is False:
-        template = "ACCURACY: {}"
+        template = "\n-----\nACCURACY: {}\n-----\n"
         print(template.format(num_accuracy))
 
 
-def train_model_xor(train_data, train_label, **kwargs):
+def report_performance(list_accuracy, bool_percent):
+    # This function reports averaged performances for all EXPERIMENT_EPOCHS
+    num_performance = np.average(list_accuracy)
+    if bool_percent is True:
+        template = "\n-----\nPERFORMANCE: {}%\n-----\n"
+        print(template.format(num_performance))
+    if bool_percent is False:
+        template = "\n-----\nPERFORMANCE: {}\n-----\n"
+        print(template.format(num_performance))
+
+
+def train_model_xor(train_data, train_label, bool_verbose=False, **kwargs):
     # kwargs
     # 'storage' [str/None (Default)]: Save trained model into given directory.
     # 'load' [str/None (Default)]: Load model stored before.
 
     # Define model
-    model = svm.SVC(verbose=True)
+    model = svm.SVC(verbose=bool_verbose)
 
     # Load trained model if 'load' path was given.
     if 'load' in kwargs:
