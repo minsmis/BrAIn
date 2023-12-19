@@ -13,10 +13,10 @@ trial_label = [
 ]
 data_path = [
     # TEST TRIAL
-    '/Users/minseokkim/Desktop/Social_Calcium_raw/IL212_1.mat',
-    '/Users/minseokkim/Desktop/Social_Calcium_raw/IL212_2.mat',
-    '/Users/minseokkim/Desktop/Social_Calcium_raw/IL212_3.mat',
-    '/Users/minseokkim/Desktop/Social_Calcium_raw/IL212_4.mat',
+    'Path',
+    'OF',
+    'YOUR',
+    'RAW_DATASETS'
 ]
 
 # Parameters
