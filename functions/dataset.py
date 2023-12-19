@@ -54,7 +54,8 @@ def split_dataset(dict_data, num_train_ratio=0.75, **kwargs):
         if STR_SPLIT_MODE == 'k_fold' and isinstance(num_k, int) and isinstance(num_current_epoch, int):
             for key in dict_data.keys():
                 list_temp_data_handle = dict_data[key]
-                dict_train_data[key], dict_test_data[key] = select_current_cross_validation_datasets(list_temp_data_handle, k_fold_cross_validation, num_current_epoch)
+                dict_train_data[key], dict_test_data[key] = select_current_cross_validation_datasets(
+                    list_temp_data_handle, k_fold_cross_validation, num_current_epoch)
             return dict_train_data, dict_test_data
 
     # Split datasets by train ratio
@@ -71,6 +72,7 @@ def feature_selection(dict_data, num_iter=2, num_q=5):
     # Parameters
     # 'num_iter' [int, Default = 2]: Iteration time to extract features.
     # 'num_q' [int, Default = 5]: Number of features to extract from each cell.
+    # 'align' [bool, Default = False]: Align T = 2qn long vectors to 1D array (n is number of neurons).
 
     def select_feature_from_random_bout(list_data, num_cell, ndarr_random_bout):
         list_output_features = []
@@ -101,6 +103,11 @@ def feature_selection(dict_data, num_iter=2, num_q=5):
                 list_temp_data_output.append(list_temp_features)
         # Store data to output dictionary with same label keys
         dict_data_features[key] = list_temp_data_output
+
+    # Align datasets
+    for key in dict_data_features.keys():
+        list_temp_data_handle = dict_data_features[key]
+        dict_data_features[key] = np.reshape(list_temp_data_handle, (1, -1))
     return dict_data_features
 
 
