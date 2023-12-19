@@ -26,8 +26,8 @@ NULL_MODE = False  # True: Test NULL model, False: Test genuine model
 fs = 20  # Hz
 time_bin = 100  # ms
 class_organization = [
-    ['A', 'B'],  # Class 0
-    ['C', 'D']  # Class 1
+    ['A', 'C'],  # Class 0
+    ['B', 'D']  # Class 1
 ]
 train_ratio = 0.75
 
