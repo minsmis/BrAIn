@@ -13,10 +13,10 @@ trial_label = [
 ]
 data_path = [
     # TEST TRIAL
-    'Path',
-    'OF',
-    'YOUR',
-    'RAW_DATASETS'
+    '/Users/minseokkim/Desktop/Social_Calcium_raw/IL212_1.mat',
+    '/Users/minseokkim/Desktop/Social_Calcium_raw/IL212_2.mat',
+    '/Users/minseokkim/Desktop/Social_Calcium_raw/IL212_3.mat',
+    '/Users/minseokkim/Desktop/Social_Calcium_raw/IL212_4.mat',
 ]
 
 # Parameters
@@ -26,8 +26,8 @@ NULL_MODE = False  # True: Test NULL model, False: Test genuine model
 fs = 20  # Hz
 time_bin = 100  # ms
 class_organization = [
-    ['A', 'B'],  # Class 0
-    ['C', 'D']  # Class 1
+    ['A', 'C'],  # Class 0
+    ['B', 'D']  # Class 1
 ]
 train_ratio = 0.75
 
