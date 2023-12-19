@@ -31,7 +31,7 @@ def train_model_xor(train_data, train_label, bool_verbose=False, **kwargs):
     # 'load' [str/None (Default)]: Load model stored before.
 
     # Define model
-    model = svm.SVC(verbose=bool_verbose)
+    model = svm.SVC(verbose=bool_verbose, kernel='linear')
 
     # Load trained model if 'load' path was given.
     if 'load' in kwargs:
