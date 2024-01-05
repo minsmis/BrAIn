@@ -1,7 +1,7 @@
 # This is an experiment for train and test datasets split by train_ratio.
 
 
-import functions as fc
+import functions.data as fdata
 import models as mdl
 
 # Paths
@@ -40,22 +40,22 @@ for epoch in range(0, EXPERIMENT_EPOCHS):
     print("Epoch: {}".format(epoch))
 
     # Import data
-    data = fc.import_dataset(trial_label, data_path, fs, time_bin)
+    data = fdata.import_dataset(trial_label, data_path, fs, time_bin)
 
     # Split to train and test datasets
-    train_data, test_data = fc.split_dataset(data, train_ratio)
+    train_data, test_data = fdata.split_dataset(data, train_ratio)
 
     # Feature selection
-    data_train_feature = fc.feature_selection(train_data)
-    data_test_feature = fc.feature_selection(test_data)
+    data_train_feature = fdata.feature_selection(train_data)
+    data_test_feature = fdata.feature_selection(test_data)
 
     # Make class
-    classes_train = fc.make_class(data_train_feature, class_organization)
-    classes_test = fc.make_class(data_test_feature, class_organization)
+    classes_train = fdata.make_class(data_train_feature, class_organization)
+    classes_test = fdata.make_class(data_test_feature, class_organization)
 
     # Make train dataset
-    train_dataset, train_label = fc.make_dataset2(classes_train, bool_shuffle=True, bool_null_mode=NULL_MODE)
-    test_dataset, test_label = fc.make_dataset2(classes_test, bool_null_mode=False)  # Do not shuffle test data
+    train_dataset, train_label = fdata.make_dataset2(classes_train, bool_shuffle=True, bool_null_mode=NULL_MODE)
+    test_dataset, test_label = fdata.make_dataset2(classes_test, bool_null_mode=False)  # Do not shuffle test data
 
     # Train model
     model = mdl.train_model_xor(train_dataset, train_label)
