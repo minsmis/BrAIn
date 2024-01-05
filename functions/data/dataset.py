@@ -1,6 +1,6 @@
 import random
 import numpy as np
-import functions as fc
+import functions.data as fdata
 
 from sklearn.model_selection import KFold
 
@@ -10,8 +10,8 @@ def import_dataset(list_trial_label, list_data_path, num_sampling_frequency, num
     dict_data = {}
 
     for label, path in zip(list_trial_label, list_data_path):
-        bool_temp_interaction, ndarr_temp_calcium = fc.import_data(path)
-        dict_data[label] = fc.extract_interaction(bool_temp_interaction, ndarr_temp_calcium,
+        bool_temp_interaction, ndarr_temp_calcium = fdata.import_data(path)
+        dict_data[label] = fdata.extract_interaction(bool_temp_interaction, ndarr_temp_calcium,
                                                   num_sampling_frequency, num_time_bin_ms, align=False,
                                                   shuffle=True, do_average=True)
     return dict_data
